@@ -1,0 +1,35 @@
+{
+  "name": "api_telebox",
+  "version": "0.0.1",
+  "description": "API Rest para site e app",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "node_modules/mocha/bin/mocha tests/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acampagnaro/api_telebox"
+  },
+  "author": "Alexandre Campagnaro <alexandre.campagnaro@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acampagnaro/api_telebox"
+  },
+  "homepage": "https://github.com/acampagnaro/api_telebox",
+  "dependencies": {
+    "bluebird": "^2.9.21",
+    "body-parser": "^1.12.2",
+    "express": "^4.12.3",
+    "method-override": "^2.3.2",
+    "mongojs": "^0.18.2",
+    "multer": "^1.1.0",
+    "mysql": "^2.6.1",
+    "nodemailer": "^2.5.0",
+    "validator": "^5.4.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.1",
+    "supertest": "^0.15.0"
+  }
+}
