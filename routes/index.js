@@ -12,24 +12,24 @@ var storage =   multer.diskStorage({
         callback(null, file.fieldname + '-' + Date.now());
     }
 });
-var upload = multer({ storage : storage}).array('files');
+var upload = multer({ storage : storage}).array('files[]');
 
 var ImagesController = require('../controller/ImagesController');
 var EmailController = require('../controller/EmailController');
 
 router.get ('/images',        ImagesController.findAll.bind(ImagesController));
 router.get ('/images/:_id',   ImagesController.findOne.bind(ImagesController));
-//router.post('/images',        upload, ImagesController.create.bind(ImagesController));
-router.post('/images', function(req,res){
-    upload(req,res,function(err) {
-        console.log(req.file);
-        if(err) {
-            //console.log(err);
-            return res.end("Error uploading file.");
-        }
-        res.end("File is uploaded");
-    });
-});
+router.post('/images',        upload, ImagesController.create.bind(ImagesController));
+// router.post('/images', function(req,res){
+//     upload(req,res,function(err) {
+//         console.log(req.body);
+//         if(err) {
+//             console.log(err);
+//             return res.end("Error uploading file.");
+//         }
+//         res.end("File is uploaded");
+//     });
+// });
 router.put ('/images/:_id',   ImagesController.update.bind(ImagesController));
 router.delete('/images/:_id', ImagesController.delete.bind(ImagesController));
 
