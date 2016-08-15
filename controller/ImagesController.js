@@ -15,6 +15,8 @@ ImagesController.prototype.create = function(req, res) {
 
   // data.image = req.file.filename;
 
+  data.name = 'teste';
+
   this.Model.createAsync(data)
     .then(function(result) {
       res.json(result);
