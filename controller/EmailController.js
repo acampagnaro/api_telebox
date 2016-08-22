@@ -9,7 +9,16 @@ function EmailController(Model) {
 }
 
 function validation(data){
-  if (!validator.isEmail(data.email)){
+  if (data.email == '' || data.email == undefined){
+    return false;
+    if (!validator.isEmail(data.email)){
+      return false;
+    }
+  }
+  if (data.name == undefined || data.name == ''){
+    return false;
+  }
+  if (data.message == undefined){
     return false;
   }
   return true;
@@ -18,8 +27,11 @@ function validation(data){
 EmailController.prototype.create = function(req, res) {
   var data = req.body;
 
+  data.response = 'envio';
+
   if (validation(data) == false) {
-    return 'Dados inválidos!';
+    res.status(422);
+    return res.json('aaaaaaaaaww333');
   }
 
   var transporte = nodemailer.createTransport({

@@ -8,7 +8,7 @@ function ImagesController(Model) {
 ImagesController.prototype.create = function(req, res) {
   var data = req.body;
 
-  // if(req.file == undefined){
+ // if(req.file == undefined){
   //     res.status(404);
   //     return res.json('Imagem inválida');
   // }
@@ -77,3 +77,4 @@ ImagesController.prototype.delete = function(req, res) {
 };
 
 module.exports = new ImagesController(ImagesModel);
+
