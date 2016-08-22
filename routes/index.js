@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var fs = require("fs");
+
 
 var multer  = require('multer')
 
@@ -16,6 +18,19 @@ var upload = multer({ storage : storage}).array('files[]');
 
 var ImagesController = require('../controller/ImagesController');
 var EmailController = require('../controller/EmailController');
+
+router.get('/a', function(req, res){
+    // Retorna um array com string dos arquivos da pasta pública.
+
+    fs.readdir('./uploads', function(err, fotos){
+        //res.render('index', {fotos: fotos});
+        if (!err)
+            console.log(fotos);
+        else
+            throw err;
+    });
+});
+
 
 router.get ('/images',        ImagesController.findAll.bind(ImagesController));
 router.get ('/images/:_id',   ImagesController.findOne.bind(ImagesController));
