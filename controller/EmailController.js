@@ -8,6 +8,7 @@ function EmailController(Model) {
   this.Model = Promise.promisifyAll(Model);
 }
 
+/*
 function validation(data){
   if (data.email == '' || data.email == undefined){
     return false;
@@ -23,15 +24,28 @@ function validation(data){
   }
   return true;
 }
+*/
 
 EmailController.prototype.create = function(req, res) {
   var data = req.body;
 
   data.response = 'envio';
 
-  if (validation(data) == false) {
+  if (data.email == '' || data.email == undefined){
     res.status(422);
-    return res.json('aaaaaaaaaww333');
+    return res.json('E-mail inválido!');
+    if (!validator.isEmail(data.email)){
+      res.status(422);
+      return res.json('E-mail inválido!');
+    }
+  }
+  if (data.name == undefined || data.name == ''){
+    res.status(422);
+    return res.json('Nome Inválido!');
+  }
+  if (data.message == undefined){
+    res.status(422);
+    return res.json('Mensagem inválida!');
   }
 
   var transporte = nodemailer.createTransport({
