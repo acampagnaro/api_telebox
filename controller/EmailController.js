@@ -29,6 +29,7 @@ function validation(data){
 EmailController.prototype.create = function(req, res) {
   var data = req.body;
 
+  data.title = 'orcamento';
   data.response = 'envio';
 
   if (data.email == '' || data.email == undefined){
@@ -66,14 +67,15 @@ EmailController.prototype.create = function(req, res) {
   // transporte.sendMail(email, function(err, info){
   //   if(err)
   //     throw err; // Oops, algo de errado aconteceu.
-
+  //
   //   console.log('Email enviado! Leia as informações adicionais: ', info);
-  //   data.response = info;
-
+  //   //data.response = info;
+  //
   // });
 
   this.Model.createAsync(data)
       .then(function(result) {
+        res.status(200);
         res.json(result);
       })
       .catch(function(err) {

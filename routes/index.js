@@ -25,10 +25,11 @@ router.get('/a', function(req, res){
 
     fs.readdir('./uploads', function(err, fotos){
         //res.render('index', {fotos: fotos});
-        if (!err)
-            console.log(fotos);
-        else
-            throw err;
+        res.json(fotos);
+        // if (!err)
+        //     console.log(fotos);
+        // else
+        //     throw err;
     });
 });
 
