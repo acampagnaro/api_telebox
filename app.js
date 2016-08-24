@@ -19,7 +19,7 @@ app.all('*', function(req, res, next) {
   next();
 });
 
-app.use(express.static('app'));
+app.use(express.static('uploads'));
 
 //Sempre todas as confi antes de chamar as rotas se não, não vai funcionar
 app.use('/', routes);
