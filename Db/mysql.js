@@ -1,11 +1,12 @@
 var mysql = require('mysql');
 var db    = require('../config.js');
+require('dotenv').config();
 
 var connection = mysql.createConnection({
-    host     : db.db.host,
-    user     : db.db.user,
-    password : db.db.password,
-    database : db.db.database
+    host     : process.env.DB_HOST,
+    user     : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB_DATABASE
 });
 
 connection.connect();

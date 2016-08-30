@@ -26,6 +26,8 @@ $ brew install mysql
 * nodemailer (emails)
 * validator (validações)
 * multer (imagens)
+* db-migrate(migrações)
+* dotenv(arquivo .env da raiz)
 
 ## Desenvolvimento
 
@@ -33,11 +35,22 @@ Instale o nodemon global e as dependências locais do projeto:
 
 ```
 $ npm install -g nodemon
+$ npm install -g db-migrate
 $ npm install
 $ npm start
 ```
 
+## Configuração
+
+* Copie o arquivo .env.sample para .env
+* Configure o .env com os dados do banco de dados e e-mail
+
 Para rodar os testes
 ```
 $ npm test
+```
+
+Criação das migrations
+```
+$ db-migrate up --config config/database.json -e prod
 ```
