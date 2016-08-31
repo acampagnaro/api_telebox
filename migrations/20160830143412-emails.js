@@ -16,7 +16,7 @@ exports.setup = function(options, seedLink) {
 
 exports.up = function (db, callback) {
   db.createTable('emails', {
-    id: { type: 'int', primaryKey: true },
+    id: { type: 'int', primaryKey: true, autoIncrement: true },
     title: 'string',
     email: 'string',
     message: 'string',
@@ -25,5 +25,5 @@ exports.up = function (db, callback) {
 };
 
 exports.down = function (db, callback) {
-  db.dropTable('pets', callback);
+  db.dropTable('emails', callback);
 };
