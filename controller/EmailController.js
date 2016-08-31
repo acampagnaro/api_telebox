@@ -3,6 +3,7 @@ var Promise     = require('bluebird');
 var nodemailer  = require('nodemailer');
 var validator   = require('validator');
 var authEmail   = require('../config.js');
+require('dotenv').config();
 
 function EmailController(Model) {
   this.Model = Promise.promisifyAll(Model);
@@ -50,10 +51,10 @@ EmailController.prototype.create = function(req, res) {
   }
 
   var transporte = nodemailer.createTransport({
-    service: authEmail.email.service,
+    service: process.env.EMAIL_SERVICE,
     auth: {
-      user: authEmail.email.email,
-      pass: authEmail.email.password
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     }
   });
 
@@ -64,14 +65,14 @@ EmailController.prototype.create = function(req, res) {
     html: data.mensage                   // O conteúdo
   };
 
-  // transporte.sendMail(email, function(err, info){
-  //   if(err)
-  //     throw err; // Oops, algo de errado aconteceu.
-  //
-  //   console.log('Email enviado! Leia as informações adicionais: ', info);
-  //   //data.response = info;
-  //
-  // });
+  transporte.sendMail(email, function(err, info){
+    if(err)
+      throw err; // Oops, algo de errado aconteceu.
+
+    console.log('Email enviado! Leia as informações adicionais: ', info);
+    //data.response = info;
+
+  });
 
   this.Model.createAsync(data)
       .then(function(result) {
