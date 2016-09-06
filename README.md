@@ -36,6 +36,7 @@ Instale o nodemon global e as dependências locais do projeto:
 ```
 $ npm install -g nodemon
 $ npm install -g db-migrate
+$ npm install db-migrate-mysql
 $ npm install
 $ npm start
 ```
