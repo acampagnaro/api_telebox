@@ -7,14 +7,6 @@ function ImagesController(Model) {
 
 ImagesController.prototype.create = function(req, res) {
   var data = req.body;
-
- // if(req.file == undefined){
-  //     res.status(404);
-  //     return res.json('Imagem inválida');
-  // }
-
-  // data.image = req.file.filename;
-
   data.name = 'teste';
 
   this.Model.createAsync(data)
@@ -63,7 +55,6 @@ ImagesController.prototype.update = function(req, res) {
     });
 };
 
-
 ImagesController.prototype.delete = function(req, res) {
   var _id = req.params.id;
 
@@ -77,4 +68,3 @@ ImagesController.prototype.delete = function(req, res) {
 };
 
 module.exports = new ImagesController(ImagesModel);
-

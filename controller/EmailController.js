@@ -9,24 +9,6 @@ function EmailController(Model) {
   this.Model = Promise.promisifyAll(Model);
 }
 
-/*
-function validation(data){
-  if (data.email == '' || data.email == undefined){
-    return false;
-    if (!validator.isEmail(data.email)){
-      return false;
-    }
-  }
-  if (data.name == undefined || data.name == ''){
-    return false;
-  }
-  if (data.message == undefined){
-    return false;
-  }
-  return true;
-}
-*/
-
 EmailController.prototype.create = function(req, res) {
   var data = req.body;
 
@@ -83,6 +65,18 @@ EmailController.prototype.create = function(req, res) {
         console.log(err)
       });
 
+};
+
+EmailController.prototype.findAll = function(req, res) {
+  var data = req.body;
+
+  this.Model.findAllAsync()
+    .then(function(result) {
+      res.json(result);
+    })
+    .catch(function(err) {
+      console.log(err)
+    });
 };
 
 module.exports = new EmailController(EmailsModel);

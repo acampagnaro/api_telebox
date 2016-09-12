@@ -1,0 +1,16 @@
+web:
+ image: tutum/apache-php
+ ports:
+ - "80:80"
+ links:
+ - db
+ volumes:
+ - $PWD:/app
+
+db:
+ image: mysql
+ environment:
+ MYSQL_ROOT_PASSWORD: my-secret-pw
+ MYSQL_DATABASE: lamp
+ MYSQL_USER: lamp_user
+ MYSQL_PASSWORD: lamp_pass
