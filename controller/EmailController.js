@@ -50,10 +50,8 @@ EmailController.prototype.create = function(req, res) {
   transporte.sendMail(email, function(err, info){
     if(err)
       throw err; // Oops, algo de errado aconteceu.
-
     console.log('Email enviado! Leia as informações adicionais: ', info);
     //data.response = info;
-
   });
 
   this.Model.createAsync(data)
