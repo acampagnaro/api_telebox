@@ -1,7 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var fs = require("fs");
+<<<<<<< HEAD
 var multer  = require('multer');
+=======
+var multer  = require('multer')
+var gm = require('gm');
+>>>>>>> 520ec4780dc0e04de7fdf9a15e12d2b39894d1e5
 const path = require('path');
 var gm = require('gm');
 
@@ -13,6 +18,30 @@ var storage =   multer.diskStorage({
         console.log('aaaaaa');
       });
         callback(null, './uploads');
+    },
+    onFileUploadStart: function (file) {
+      var imagePath = file.path;
+
+      console.log('aaaawsqdsws');
+
+      gm(imagePath).resize(850, 850).quality(70).noProfile().write('public/uploads/spots/850x850/'+file.name, function (err) {
+          if (!err) {
+              gm(imagePath).resize(150, 150).quality(70).noProfile().write('public/uploads/spots/150x150/'+file.name, function (err) {
+                  if (!err) {
+                  }
+                  else{
+                      console.log('Error: '+err);
+                  }
+
+              });
+          }
+          else{
+              console.log('Error: '+err);
+
+          }
+
+      });
+
     },
     filename: function (req, file, callback) {
         //callback(null, file.fieldname + '-' + Date.now());
