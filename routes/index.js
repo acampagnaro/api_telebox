@@ -1,11 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var fs = require("fs");
-var multer  = require('multer')
+var multer  = require('multer');
 const path = require('path');
+var gm = require('gm');
 
 var storage =   multer.diskStorage({
     destination: function (req, file, callback) {
+      gm(file)
+        .resize(353, 257).write(null, function (err) {
+        if (!err) console.log(' hooray! ');
+        console.log('aaaaaa');
+      });
         callback(null, './uploads');
     },
     filename: function (req, file, callback) {
@@ -14,8 +20,11 @@ var storage =   multer.diskStorage({
           return callback(new Error('Only image files are allowed!'));
         }
 
+
+
         callback(null, file.originalname)
     }
+
 });
 var upload = multer({ storage : storage}).array('files[]');
 
