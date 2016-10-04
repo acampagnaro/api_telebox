@@ -21,6 +21,10 @@ app.all('*', function(req, res, next) {
 
 app.use(express.static('uploads'));
 
+process.on('uncaughtException', function (err) {
+  console.log(err);
+})
+
 //Sempre todas as confi antes de chamar as rotas se não, não vai funcionar
 app.use('/', routes);
 

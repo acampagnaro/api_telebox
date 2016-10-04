@@ -11,3 +11,4 @@ workspace.xml
 bower_components
 uploads
 config.js
+npm-debug.log
