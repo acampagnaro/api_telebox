@@ -31,7 +31,7 @@ router.get('/images', function(req, res){
 
 //router.get ('/images',        ImagesController.findAll.bind(ImagesController));
 router.get ('/images/:_id',   ImagesController.findOne.bind(ImagesController));
-router.post('/images',        upload,ImagesController.create.bind(ImagesController), callback);
+router.post('/images',        upload,ImagesController.create.bind(ImagesController));
 router.put ('/images/:_id',   ImagesController.update.bind(ImagesController));
 router.delete('/images/:_id', ImagesController.delete.bind(ImagesController));
 router.post('/sendmail',      EmailController.create.bind(EmailController));
