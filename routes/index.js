@@ -5,7 +5,6 @@ var multer  = require('multer');
 var gulp = require('gulp');
 var imageResize = require('gulp-image-resize');
 
-
 var imagens = multer({ dest: 'uploads/' })
 var storage =   multer.diskStorage({
     destination: function (req, file, callback) {
