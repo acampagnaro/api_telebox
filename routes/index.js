@@ -2,6 +2,9 @@ var express = require('express');
 var router  = express.Router();
 var fs      = require("fs");
 var multer  = require('multer');
+var gulp = require('gulp');
+var imageResize = require('gulp-image-resize');
+
 
 var imagens = multer({ dest: 'uploads/' })
 var storage =   multer.diskStorage({
@@ -18,6 +21,21 @@ var storage =   multer.diskStorage({
 });
 
 var upload = multer({ storage : storage }).array('files[]');
+
+gulp.task('image', function(){
+    gulp.src('1.jpg')
+        .pipe(imageResize({
+            width : 360,
+            height : 247,
+            crop : true,
+            upscale : false
+        }))
+        .pipe(gulp.dest('dest'));
+});
+
+gulp.task('default', ['image'],function(){
+
+});
 
 var ImagesController = require('../controller/ImagesController');
 var EmailController = require('../controller/EmailController');
