@@ -13,4 +13,4 @@ uploads
 config.js
 npm-debug.log
 .data/
-public/
+public/upload
