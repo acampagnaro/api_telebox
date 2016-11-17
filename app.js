@@ -19,7 +19,7 @@ app.all('*', function(req, res, next) {
   next();
 });
 
-app.use(express.static('public/upload'));
+app.use(express.static('public/dest'));
 
 process.on('uncaughtException', function (err) {
   console.log(err);
