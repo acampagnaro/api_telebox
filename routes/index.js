@@ -4,24 +4,6 @@ var fs      = require("fs");
 var multer  = require('multer');
 var storage = require('../config/upload');
 
-var gulp = require('gulp');
-var imageResize = require('gulp-image-resize');
-
-gulp.task('image', function(){
-    gulp.src('./public/upload/*.jpg')
-        .pipe(imageResize({
-            width : 360,
-            height : 247,
-            crop : true,
-            upscale : false
-        }))
-        .pipe(gulp.dest('public/dest'));
-});
-
-gulp.task('default', ['image'],function(){
-
-});
-
 var upload = multer({ storage : storage }).array('files[]');
 
 var ImagesController = require('../controller/ImagesController');
@@ -32,7 +14,6 @@ router.get('/images', function(req, res){
     fs.readdir('./public/upload', function(err, fotos){
         res.json(fotos);
     });
-    gulp.start('default');
 });
 
 //router.get ('/images',        ImagesController.findAll.bind(ImagesController));
