@@ -55,3 +55,9 @@ Criação das migrations
 ```
 $ db-migrate up --config config/database.json -e prod
 ```
+
+caso use docker-compose
+DB_HOST=127.0.0.1
+DB_USER=root
+DB_PASS=mysql
+DB_DATABASE=mysql

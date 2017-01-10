@@ -11,7 +11,7 @@ var EmailController = require('../controller/EmailController');
 
 router.get('/images', function(req, res){
     // Retorna um array com string dos arquivos da pasta pública.
-    fs.readdir('./public/upload', function(err, fotos){
+    fs.readdir('./public/dest', function(err, fotos){
         res.json(fotos);
     });
 });
