@@ -3,6 +3,7 @@ var router  = express.Router();
 var fs      = require("fs");
 var multer  = require('multer');
 var storage = require('../config/upload');
+const junk = require('junk');
 
 var upload = multer({ storage : storage }).array('files[]');
 
@@ -12,7 +13,7 @@ var EmailController = require('../controller/EmailController');
 router.get('/images', function(req, res){
     // Retorna um array com string dos arquivos da pasta pública.
     fs.readdir('./public/dest', function(err, fotos){
-        res.json(fotos);
+        res.json(fotos.filter(junk.not));
     });
 });
 
