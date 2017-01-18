@@ -68,13 +68,33 @@ EmailController.prototype.create = function(req, res) {
 EmailController.prototype.findAll = function(req, res) {
   var data = req.body;
 
+  var total = 0;
+  var per_page = 0;
+  var current_page = 0;
+  var last_page = 0;
+  var from = 1;
+  var to = 0;
+
+  var getTrades = Promise.promisify(trader.getTrades, trader);
+
   this.Model.findAllAsync()
     .then(function(result) {
+      console.log(result);
       res.json(result);
     })
     .catch(function(err) {
       console.log(err)
     });
 };
+
+function getAllTrades(limit, arr) {
+    if (!arr) arr=[];
+    return getTrades(limit, arr.length).then(function(results) {
+         if (!results.length)
+             return arr;
+         else
+             return getAllTrades(limit, arr.concat(results));
+    });
+}
 
 module.exports = new EmailController(EmailsModel);

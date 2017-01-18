@@ -3,7 +3,6 @@ var router  = express.Router();
 var fs      = require("fs");
 var multer  = require('multer');
 var storage = require('../config/upload');
-var paginate = require('express-paginate');
 const junk = require('junk');
 
 var upload = multer({ storage : storage }).array('files[]');
