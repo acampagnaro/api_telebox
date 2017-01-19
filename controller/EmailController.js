@@ -4,6 +4,7 @@ var nodemailer  = require('nodemailer');
 var validator   = require('validator');
 var authEmail   = require('../config.js');
 require('dotenv').config();
+var async = require("async");
 
 function EmailController(Model) {
   this.Model = Promise.promisifyAll(Model);
@@ -13,7 +14,7 @@ EmailController.prototype.create = function(req, res) {
   var data = req.body;
 
   data.title = 'orcamento';
-  data.response = 'envio';
+  //data.response = 'envio';
 
   if (data.email == '' || data.email == undefined){
     res.status(422);
@@ -47,11 +48,30 @@ EmailController.prototype.create = function(req, res) {
     html: data.mensage                   // O conteúdo
   };
 
-  transporte.sendMail(email, function(err, info){
-    if(err)
-      throw err; // Oops, algo de errado aconteceu.
-    console.log('Email enviado! Leia as informações adicionais: ', info);
-    //data.response = info;
+  // transporte.sendMail(email, function(err, info){
+  //   if(err)
+  //     throw err; // Oops, algo de errado aconteceu.
+  //   console.log('Email enviado! Leia as informações adicionais: ', info);
+  //   data.response = info;
+  //   wait = true;
+  // });
+
+  async.whilst(function () {
+    console.log(data.response);
+    return data.response != 'undefined';
+  },
+  function (next) {
+    transporte.sendMail(email, function(err, info){
+      if(err)
+        throw err; // Oops, algo de errado aconteceu.
+      console.log('Email enviado! Leia as informações adicionais: ', info);
+      data.response = info;
+    });
+
+
+  },
+  function (err) {
+    // All things are done!
   });
 
   this.Model.createAsync(data)
