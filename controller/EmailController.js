@@ -7,7 +7,7 @@ require('dotenv').config();
 var async = require("async");
 
 function EmailController(Model) {
-  this.Model = Promise.promisifyAll(Model);
+  this.Model  = Promise.promisifyAll(Model);
 }
 
 EmailController.prototype.create = function(req, res) {
@@ -88,33 +88,17 @@ EmailController.prototype.create = function(req, res) {
 EmailController.prototype.findAll = function(req, res) {
   var data = req.body;
 
-  var total = 0;
-  var per_page = 0;
-  var current_page = 0;
-  var last_page = 0;
-  var from = 1;
-  var to = 0;
-
-  var getTrades = Promise.promisify(trader.getTrades, trader);
+  var todo = [];
 
   this.Model.findAllAsync()
     .then(function(result) {
-      console.log(result);
+      todo.push(result);
       res.json(result);
     })
     .catch(function(err) {
       console.log(err)
     });
+    console.log(todo);
 };
-
-function getAllTrades(limit, arr) {
-    if (!arr) arr=[];
-    return getTrades(limit, arr.length).then(function(results) {
-         if (!results.length)
-             return arr;
-         else
-             return getAllTrades(limit, arr.concat(results));
-    });
-}
 
 module.exports = new EmailController(EmailsModel);

@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var routes = require('./routes');
+var paginate = require('express-paginate');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
