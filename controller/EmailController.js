@@ -5,10 +5,22 @@ var validator   = require('validator');
 var authEmail   = require('../config.js');
 require('dotenv').config();
 var async = require("async");
+var mysql   = require('mysql');
+
+var connection = mysql.createConnection({
+    host     : '127.0.0.1',
+    user     : 'root',
+    password : 'mysql',
+    database : 'mysql',
+    port     : 33060
+});
 
 function EmailController(Model) {
   this.Model  = Promise.promisifyAll(Model);
 }
+
+var queryAsync = Promise.promisify(connection.query.bind(connection));
+connection.connect();
 
 EmailController.prototype.create = function(req, res) {
   var data = req.body;
@@ -88,17 +100,78 @@ EmailController.prototype.create = function(req, res) {
 EmailController.prototype.findAll = function(req, res) {
   var data = req.body;
 
-  var todo = [];
+    var numRows;
+    var queryPagination;
+    var numPerPage = parseInt(req.query.npp, 10) || 2;
+    var page = parseInt(req.query.page, 10) || 0;
+    var numPages;
+    var skip = page * numPerPage;
+    // Here we compute the LIMIT parameter for MySQL query
+    var limit = skip + ',' + skip + numPerPage;
+    queryAsync('SELECT count(*) as numRows FROM emails')
+        .then(function(results) {
+            numRows = results[0][0].numRows;
+            numPages = Math.ceil(numRows / numPerPage);
+            console.log('number of pages:', numPages);
+        })
+        .then(() => queryAsync('SELECT * FROM emails ORDER BY ID DESC LIMIT ' + limit))
+    .then(function(results) {
+        var responsePayload = {
+            results: results
+        };
+        if (page < numPages) {
+            responsePayload.pagination = {
+                current: page,
+                perPage: numPerPage,
+                previous: page > 0 ? page - 1 : undefined,
+                next: page < numPages - 1 ? page + 1 : undefined,
+                totalPages: numPages
+            }
+        }
+        else responsePayload.pagination = {
+            err: 'queried page ' + page + ' is >= to maximum page number ' + numPages
+        }
+        console.log(numRows);
+        res.json(responsePayload);
+    })
+        .catch(function(err) {
+            console.error(err);
+            res.json({ err: err });
+        });
 
+
+  /*
   this.Model.findAllAsync()
     .then(function(result) {
-      todo.push(result);
-      res.json(result);
+        res.json(result);
     })
     .catch(function(err) {
       console.log(err)
     });
-    console.log(todo);
+  */
 };
+
+function getAllTrades(limit, offset, query) {
+    var allTrades = [];
+    function getTrades(limit, offset, query){
+        return trader.getTradesAsync(limit, offset, query)
+            .each(function(trade) {
+                allTrades.push(trade)
+// or, doStuff(trade), etc.
+            })
+            .then(function(trades) {
+                if (trades.length === limit) {
+                    offset += limit;
+                    return getTrades(limit, offset, query);
+                } else {
+                    return allTrades;
+                }
+            })
+            .catch(function(e) {
+                console.log(e.stack);
+            })
+    }
+    return getTrades(limit, offset, query)
+}
 
 module.exports = new EmailController(EmailsModel);
