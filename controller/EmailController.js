@@ -110,18 +110,20 @@ EmailController.prototype.findAll = function(req, res) {
     var numPages;
     var skip = page * numPerPage;
     // Here we compute the LIMIT parameter for MySQL query
-    var limit = skip + ',' + skip + numPerPage;
+    //var limit = skip + ',' + skip + numPerPage;
+    var limit = page + ',' + numPerPage;
     queryAsync('SELECT count(*) as numRows FROM emails')
         .then(function(results) {
             numRows = results[0][0].numRows;
             numPages = Math.ceil(numRows / numPerPage);
             console.log('number of pages:', numPages);
         })
-        .then(() => queryAsync('SELECT * FROM emails ORDER BY ID DESC LIMIT ' + limit))
+        .then(() => queryAsync('SELECT * FROM emails ORDER BY ID LIMIT ' + limit))
     .then(function(results) {
         var responsePayload = {
             results: results
         };
+        console.log('SELECT * FROM emails ORDER BY ID LIMIT ' + limit);
         if (page < numPages) {
             responsePayload.pagination = {
                 current: page,
@@ -153,28 +155,5 @@ EmailController.prototype.findAll = function(req, res) {
     });
   */
 };
-
-function getAllTrades(limit, offset, query) {
-    var allTrades = [];
-    function getTrades(limit, offset, query){
-        return trader.getTradesAsync(limit, offset, query)
-            .each(function(trade) {
-                allTrades.push(trade)
-// or, doStuff(trade), etc.
-            })
-            .then(function(trades) {
-                if (trades.length === limit) {
-                    offset += limit;
-                    return getTrades(limit, offset, query);
-                } else {
-                    return allTrades;
-                }
-            })
-            .catch(function(e) {
-                console.log(e.stack);
-            })
-    }
-    return getTrades(limit, offset, query)
-}
 
 module.exports = new EmailController(EmailsModel);
