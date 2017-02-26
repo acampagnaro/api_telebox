@@ -3,16 +3,17 @@ var Promise     = require('bluebird');
 var nodemailer  = require('nodemailer');
 var validator   = require('validator');
 var authEmail   = require('../config.js');
-require('dotenv').config();
 var async = require("async");
 var mysql   = require('mysql');
 
+require('dotenv').config();
+
 var connection = mysql.createConnection({
-    host     : '127.0.0.1',
-    user     : 'root',
-    password : 'mysql',
-    database : 'mysql',
-    port     : 33060
+    host     : process.env.DB_HOST,
+    user     : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB_DATABASE,
+    port     : process.env.DB_PORT
 });
 
 function EmailController(Model) {
@@ -100,6 +101,8 @@ EmailController.prototype.create = function(req, res) {
 EmailController.prototype.findAll = function(req, res) {
   var data = req.body;
 
+    console.log(req.query.page);
+
     var numRows;
     var queryPagination;
     var numPerPage = parseInt(req.query.npp, 10) || 2;
@@ -131,7 +134,7 @@ EmailController.prototype.findAll = function(req, res) {
         else responsePayload.pagination = {
             err: 'queried page ' + page + ' is >= to maximum page number ' + numPages
         }
-        console.log(numRows);
+        console.log('numebr de registers' + numRows);
         res.json(responsePayload);
     })
         .catch(function(err) {
