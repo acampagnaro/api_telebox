@@ -21,6 +21,7 @@ app.all('*', function(req, res, next) {
 });
 
 app.use(express.static('public/dest'));
+app.use(express.static('public/upload'));
 
 process.on('uncaughtException', function (err) {
   console.log(err);

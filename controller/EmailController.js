@@ -116,14 +116,12 @@ EmailController.prototype.findAll = function(req, res) {
         .then(function(results) {
             numRows = results[0][0].numRows;
             numPages = Math.ceil(numRows / numPerPage);
-            console.log('number of pages:', numPages);
         })
         .then(() => queryAsync('SELECT * FROM emails ORDER BY ID LIMIT ' + limit))
     .then(function(results) {
         var responsePayload = {
             results: results
         };
-        console.log('SELECT * FROM emails ORDER BY ID LIMIT ' + limit);
         if (page < numPages) {
             responsePayload.pagination = {
                 current: page,
@@ -136,7 +134,6 @@ EmailController.prototype.findAll = function(req, res) {
         else responsePayload.pagination = {
             err: 'queried page ' + page + ' is >= to maximum page number ' + numPages
         }
-        console.log('numebr de registers' + numRows);
         res.json(responsePayload);
     })
         .catch(function(err) {
