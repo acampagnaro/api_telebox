@@ -9,6 +9,7 @@ var upload = multer({ storage : storage }).array('files[]');
 
 var ImagesController = require('../controller/ImagesController');
 var EmailController = require('../controller/EmailController');
+var LoginController = require('../controller/LoginController');
 
 router.get('/images', function(req, res){
     // Retorna um array com string dos arquivos da pasta pública.
@@ -24,5 +25,6 @@ router.put ('/images/:_id',   ImagesController.update.bind(ImagesController));
 router.delete('/images/:_id', ImagesController.delete.bind(ImagesController));
 router.post('/sendmail',      EmailController.create.bind(EmailController));
 router.get('/emails',         EmailController.findAll.bind(EmailController));
+router.post('/login',         LoginController.authentication.bind(LoginController));
 
 module.exports = router;

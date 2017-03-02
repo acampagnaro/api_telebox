@@ -99,9 +99,7 @@ EmailController.prototype.create = function(req, res) {
 };
 
 EmailController.prototype.findAll = function(req, res) {
-  var data = req.body;
-
-    console.log(req.query.page);
+    var data = req.body;
 
     var numRows;
     var queryPagination;
