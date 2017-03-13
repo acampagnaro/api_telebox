@@ -19,6 +19,7 @@ router.get('/images', function(req, res){
 });
 
 //router.get ('/images',        ImagesController.findAll.bind(ImagesController));
+router.get ('/',              function(req, res){ res.send('Hello World!');});
 router.get ('/images/:_id',   ImagesController.findOne.bind(ImagesController));
 router.post('/images',        upload,ImagesController.create.bind(ImagesController));
 router.put ('/images/:_id',   ImagesController.update.bind(ImagesController));
