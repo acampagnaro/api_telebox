@@ -2,7 +2,6 @@ var EmailsModel = require('../model/EmailsModel');
 var Promise     = require('bluebird');
 var nodemailer  = require('nodemailer');
 var validator   = require('validator');
-var authEmail   = require('../config.js');
 var async = require("async");
 var mysql   = require('mysql');
 
