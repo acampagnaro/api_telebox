@@ -14,6 +14,7 @@ var LoginController = require('../controller/LoginController');
 router.get('/images', function(req, res){
     // Retorna um array com string dos arquivos da pasta pública.
     fs.readdir('./public/dest', function(err, fotos){
+        console.log(err)
         res.json(fotos.filter(junk.not));
     });
 });
